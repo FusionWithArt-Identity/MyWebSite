@@ -680,6 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- [MODIFIED] ---
     function generateMenuHtml(items, parentType) {
         let html = '';
         items.forEach(item => {
@@ -691,10 +692,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             html += `<li class="${dropdownClass} ${rightAlignClass} ${parentType === 'mobile' && hasSubmenu ? 'has-submenu' : ''}">`;
             html += `<a href="#" ${dataContentKeyAttr} class="${donateButtonClass} ${parentType === 'mobile' && hasSubmenu ? 'menu-toggle' : ''}">`;
+            
+            // --- [START OF FEATURE 1 CHANGE] ---
+            if (hasSubmenu && parentType !== 'mobile') {
+                html += `<span class="equals-icon equals-icon-left">=</span>`; // New left icon
+            }
             html += `${item.label}`;
             if (hasSubmenu) {
-                html += `<i class="fas fa-chevron-down"></i><span class="equals-icon">=</span>`;
+                if (parentType === 'mobile') {
+                     html += `<i class="fas fa-chevron-down"></i><span class="equals-icon equals-icon-right">=</span>`;
+                } else {
+                    html += `<i class="fas fa-chevron-down"></i>`;
+                    html += `<span class="equals-icon equals-icon-right">=</span>`; // Renamed right icon
+                }
             }
+            // --- [END OF FEATURE 1 CHANGE] ---
+
             html += `</a>`;
 
             if (hasSubmenu) {
@@ -778,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!moreMenuItem) {
             moreMenuItem = document.createElement('li');
             moreMenuItem.classList.add('has-dropdown', 'more-menu-item');
-            moreMenuItem.innerHTML = `<a href="#">More <i class="fas fa-chevron-down"></i><span class="equals-icon">=</span></a><ul class="dropdown"></ul>`;
+            moreMenuItem.innerHTML = `<a href="#">More <i class="fas fa-chevron-down"></i><span class="equals-icon equals-icon-right">=</span></a><ul class="dropdown"></ul>`;
             desktopNavbar.appendChild(moreMenuItem);
         }
         const moreDropdownList = moreMenuItem.querySelector('.dropdown');
@@ -806,7 +819,7 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
+    // --- [MODIFIED] (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
 
@@ -821,52 +834,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
         // Reset alignment classes before checking
+        // --- [START OF FEATURE 1 CHANGE] ---
+        parentLi.classList.remove('opens-left'); // Reset icon direction class
+        // --- [END OF FEATURE 1 CHANGE] ---
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
+
 
         if (isNested) {
             // --- Logic for NESTED dropdowns (L2+) ---
-
-            // Check if it overflows on the right (default position)
             const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
             
             if (overflowsRight) {
-                // It overflows right. Check if it has space on the left.
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
-                    // Enough space on the left, so flip it
                     dropdownElement.classList.add('align-left');
+                    parentLi.classList.add('opens-left'); // <-- ADDED
                 } else {
-                    // Not enough space on the left either (e.g., high zoom)
-                    // Use the 'align-left-edge' class as a fallback
                     dropdownElement.classList.add('align-left-edge');
+                    parentLi.classList.add('opens-left'); // <-- ADDED
                 }
             }
-            // If it doesn't overflow right, no class is added (default position is correct)
+            // If it doesn't overflow right, 'opens-left' remains removed (default)
 
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
-            
-            // Get the dropdown's default (left-aligned) position's right edge
-            // Note: L1 dropdowns are left:0 relative to the parent, so parentRect.left is the starting point.
             const defaultRightEdge = parentRect.left + dropdownWidth;
 
             if (defaultRightEdge > (viewportWidth - GAP)) {
-                // It overflows right. Apply align-right.
-                // This class makes it right:0 relative to the parent.
                 dropdownElement.classList.add('align-right');
-                
-                // After applying 'align-right', its new left edge will be (parentRect.right - dropdownWidth)
-                const newLeftEdge = parentRect.right - dropdownWidth;
-                
-                if (newLeftEdge < GAP) {
-                    // It *also* overflows on the left.
-                    // This means the menu is wider than the space available relative to the parent.
-                    // We will keep 'align-right' as it's the most reasonable fallback.
-                    // The L1 menu will be aligned to the right of the parent item and overflow to the left.
-                }
             }
-            // If it doesn't overflow right, no class is added (default position is correct)
+            // No 'opens-left' for L1 menus.
         }
     }
 
@@ -897,22 +895,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const isTopLevel = parentLi.parentElement === desktopNavbar;
 
             if (isTopLevel) {
-                // --- START OF FIX ---
                 // Find all *other* top-level menus
                 document.querySelectorAll('#desktop-navbar > li.has-dropdown').forEach(item => {
                     if (item !== parentLi) { 
-                        // Close the other top-level menu
                         item.classList.remove('show-submenu', 'active');
                         
-                        // **THIS IS THE FIX:**
-                        // Find all open submenus *within* the menu we are closing
-                        // and remove their classes too. This prevents the "ghost state".
+                        // **THIS IS THE FIX from last time:**
                         item.querySelectorAll('.has-dropdown.show-submenu').forEach(subItem => {
                             subItem.classList.remove('show-submenu', 'active');
                         });
                     }
                 });
-                // --- END OF FIX ---
             } else {
                 // This logic (for nested menus) was already correct.
                 [...parentLi.parentElement.children].forEach(sibling => {
