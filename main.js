@@ -806,7 +806,6 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- [START OF FIX] ---
     // --- (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
@@ -870,7 +869,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // If it doesn't overflow right, no class is added (default position is correct)
         }
     }
-    // --- [END OF FIX] ---
 
 
     // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
@@ -899,10 +897,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const isTopLevel = parentLi.parentElement === desktopNavbar;
 
             if (isTopLevel) {
+                // --- START OF FIX ---
+                // Find all *other* top-level menus
                 document.querySelectorAll('#desktop-navbar > li.has-dropdown').forEach(item => {
-                    if (item !== parentLi) item.classList.remove('show-submenu', 'active');
+                    if (item !== parentLi) { 
+                        // Close the other top-level menu
+                        item.classList.remove('show-submenu', 'active');
+                        
+                        // **THIS IS THE FIX:**
+                        // Find all open submenus *within* the menu we are closing
+                        // and remove their classes too. This prevents the "ghost state".
+                        item.querySelectorAll('.has-dropdown.show-submenu').forEach(subItem => {
+                            subItem.classList.remove('show-submenu', 'active');
+                        });
+                    }
                 });
+                // --- END OF FIX ---
             } else {
+                // This logic (for nested menus) was already correct.
                 [...parentLi.parentElement.children].forEach(sibling => {
                     if (sibling !== parentLi && sibling.classList.contains('has-dropdown')) {
                         sibling.classList.remove('show-submenu');
@@ -917,7 +929,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isCurrentlyOpen) {
                 const dropdown = parentLi.querySelector('.dropdown');
                 // Run the check to correctly position the dropdown
-                // This is the crucial call to the fixed function
                 checkDropdownPosition(dropdown);
             }
         }
