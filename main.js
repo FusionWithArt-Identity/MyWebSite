@@ -660,14 +660,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // --- [UPDATED] ---
     function closeAllDesktopDropdowns() {
         document.querySelectorAll('.navbar .has-dropdown').forEach(item => {
-            item.classList.remove('show-submenu', 'active');
+            // Clean up all navigation and focus/blur classes
+            item.classList.remove('show-submenu', 'active', 'is-active-parent');
         });
         document.querySelectorAll('.navbar > li').forEach(item => {
            item.classList.remove('active');
         });
+        // Clean up all focus/blur classes from dropdowns
+        document.querySelectorAll('.focused-dropdown, .has-focused-child').forEach(item => {
+            item.classList.remove('focused-dropdown', 'has-focused-child');
+        });
     }
+    // --- [END UPDATE] ---
 
     function closeMobileMenu() {
         mobileMenuContainer.classList.remove('show');
@@ -751,8 +758,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div>${content.text || '<p>Content for this menu item is coming soon.</p>'}</div>
                 ${mediaSection}
                 ${content.button ? `<a href="${content.button.href}" class="donate-button" style="display:inline-block; margin-top: 15px;">${content.button.text}</a>` : ''}
-            </div>
-        `;
+            `;
 
         if (!sessionStorage.getItem('scrollPosition')) {
             if (contentKey === 'home') {
@@ -806,7 +812,6 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- [START OF FIX] ---
     // --- (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
@@ -826,54 +831,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (isNested) {
             // --- Logic for NESTED dropdowns (L2+) ---
-
-            // Check if it overflows on the right (default position)
             const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
             
             if (overflowsRight) {
-                // It overflows right. Check if it has space on the left.
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
-                    // Enough space on the left, so flip it
                     dropdownElement.classList.add('align-left');
                 } else {
-                    // Not enough space on the left either (e.g., high zoom)
-                    // Use the 'align-left-edge' class as a fallback
                     dropdownElement.classList.add('align-left-edge');
                 }
             }
-            // If it doesn't overflow right, no class is added (default position is correct)
-
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
-            
-            // Get the dropdown's default (left-aligned) position's right edge
-            // Note: L1 dropdowns are left:0 relative to the parent, so parentRect.left is the starting point.
             const defaultRightEdge = parentRect.left + dropdownWidth;
 
             if (defaultRightEdge > (viewportWidth - GAP)) {
-                // It overflows right. Apply align-right.
-                // This class makes it right:0 relative to the parent.
                 dropdownElement.classList.add('align-right');
                 
-                // After applying 'align-right', its new left edge will be (parentRect.right - dropdownWidth)
                 const newLeftEdge = parentRect.right - dropdownWidth;
                 
                 if (newLeftEdge < GAP) {
-                    // It *also* overflows on the left.
-                    // This means the menu is wider than the space available relative to the parent.
-                    // We will keep 'align-right' as it's the most reasonable fallback.
-                    // The L1 menu will be aligned to the right of the parent item and overflow to the left.
+                    // It *also* overflows on the left, but align-right is the best fallback.
                 }
             }
-            // If it doesn't overflow right, no class is added (default position is correct)
         }
     }
-    // --- [END OF FIX] ---
 
 
-    // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
+    // --- FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
     function repositionOpenDropdowns() {
         const openDropdowns = document.querySelectorAll('.has-dropdown.show-submenu > .dropdown');
         openDropdowns.forEach(dropdown => {
@@ -883,6 +869,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- Event Listeners (From Webpage 1) ---
+    // --- [UPDATED] ---
     desktopNavbar.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (!link) return;
@@ -900,25 +887,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (isTopLevel) {
                 document.querySelectorAll('#desktop-navbar > li.has-dropdown').forEach(item => {
-                    if (item !== parentLi) item.classList.remove('show-submenu', 'active');
+                    if (item !== parentLi) {
+                         // Clean up all classes on siblings
+                        item.classList.remove('show-submenu', 'active', 'is-active-parent');
+                        item.querySelectorAll('.show-submenu, .active, .is-active-parent, .has-focused-child, .focused-dropdown').forEach(sub => {
+                            sub.classList.remove('show-submenu', 'active', 'is-active-parent', 'has-focused-child', 'focused-dropdown');
+                        });
+                    }
                 });
             } else {
                 [...parentLi.parentElement.children].forEach(sibling => {
                     if (sibling !== parentLi && sibling.classList.contains('has-dropdown')) {
-                        sibling.classList.remove('show-submenu');
-                        sibling.querySelectorAll('.show-submenu').forEach(sub => sub.classList.remove('show-submenu'));
+                        // Clean up all classes on siblings
+                        sibling.classList.remove('show-submenu', 'is-active-parent');
+                        sibling.querySelectorAll('.show-submenu, .is-active-parent, .has-focused-child, .focused-dropdown').forEach(sub => {
+                            sub.classList.remove('show-submenu', 'is-active-parent', 'has-focused-child', 'focused-dropdown');
+                        });
                     }
                 });
             }
             
             parentLi.classList.toggle('show-submenu', !isCurrentlyOpen);
             parentLi.classList.toggle('active', !isCurrentlyOpen);
+            
+            const dropdown = parentLi.querySelector('.dropdown');
+            const parentDropdown = parentLi.closest('ul.dropdown');
 
-            if (!isCurrentlyOpen) {
-                const dropdown = parentLi.querySelector('.dropdown');
-                // Run the check to correctly position the dropdown
-                // This is the crucial call to the fixed function
+            if (!isCurrentlyOpen) { // Menu is OPENING
                 checkDropdownPosition(dropdown);
+
+                // 1. Remove focus from all other dropdowns
+                document.querySelectorAll('.focused-dropdown').forEach(d => d.classList.remove('focused-dropdown'));
+                
+                // 2. Add focus to the new dropdown
+                if(dropdown) dropdown.classList.add('focused-dropdown');
+
+                if (parentDropdown) {
+                    // 3. Mark the parent dropdown as having a focused child
+                    parentDropdown.classList.add('has-focused-child');
+                    
+                    // 4. Mark the current li as the active parent
+                    parentLi.classList.add('is-active-parent');
+                }
+            } else { // Menu is CLOSING
+                // 1. Remove 'is-active-parent' from the li
+                parentLi.classList.remove('is-active-parent');
+                
+                // 2. Remove focus from the closing dropdown
+                if (dropdown) dropdown.classList.remove('focused-dropdown');
+
+                if (parentDropdown) {
+                    // 3. Remove the 'has-focused-child' state
+                    parentDropdown.classList.remove('has-focused-child');
+                    
+                    // 4. Return focus to the parent dropdown
+                    parentDropdown.classList.add('focused-dropdown');
+                }
             }
         }
 
@@ -926,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             loadContent(contentKey, link.innerHTML);
             sessionStorage.setItem('currentContentKey', contentKey);
-            closeAllDesktopDropdowns();
+            closeAllDesktopDropdowns(); // This will clean up all focus/blur classes
             document.querySelectorAll('.navbar li').forEach(item => item.classList.remove('active'));
             let current = parentLi;
             while(current && current.parentElement.closest('.navbar')){
@@ -935,6 +959,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    // --- [END UPDATE] ---
 
     document.addEventListener('click', e => {
         if (!e.target.closest('.navbar')) closeAllDesktopDropdowns();
