@@ -972,6 +972,68 @@ footer {
         height: 5rem; /* 80px */
     }
 
+
+
+
+
+
+    /* --- [NEW] Pulsating Focus and Blur Effect Styling --- */
+
+/* 1. Define the pulsation animation */
+@keyframes pulsate-shadow {
+    0% {
+        /* Use the existing shadow + a small theme-colored glow */
+        box-shadow: var(--shadow), 0 0 5px 0px var(--primary-color);
+    }
+    50% {
+        /* Make the glow larger and brighter */
+        box-shadow: var(--shadow), 0 0 10px 4px var(--primary-color);
+    }
+    100% {
+        /* Return to the small glow */
+        box-shadow: var(--shadow), 0 0 5px 0px var(--primary-color);
+    }
+}
+
+/* 2. Define a separate pulsation for nested menus (which have a different base shadow) */
+@keyframes pulsate-glow-nested {
+    0% {
+        box-shadow: 0 0 5px 0px var(--primary-color);
+    }
+    50% {
+        box-shadow: 0 0 10px 4px var(--primary-color);
+    }
+    100% {
+        box-shadow: 0 0 5px 0px var(--primary-color);
+    }
+}
+
+/* 3. Apply the pulsation to the focused L1 dropdown */
+.dropdown.focused-dropdown {
+    animation: pulsate-shadow 1.5s ease-in-out infinite;
+    /* Ensure the focused menu is on top */
+    z-index: 1200; 
+}
+
+/* 4. Apply the pulsation to focused nested (L2+) dropdowns */
+.dropdown .dropdown.focused-dropdown {
+    animation: pulsate-glow-nested 1.5s ease-in-out infinite;
+    z-index: 1200;
+}
+
+/* 5. Style for the parent menu that has a focused child */
+.dropdown.has-focused-child > li {
+    /* Add a transition for the blur effect */
+    transition: all 0.3s ease;
+}
+
+/* 6. Blur all children of the parent menu... */
+.dropdown.has-focused-child > li:not(.is-active-parent) {
+    filter: blur(2px);
+    opacity: 0.6;
+    /* Prevent clicking on blurred items */
+    pointer-events: none; 
+}
     .carousel-container {
         height: 12.5rem; /* 200px */
     }
