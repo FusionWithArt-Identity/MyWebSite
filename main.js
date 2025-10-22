@@ -772,24 +772,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Priority Navigation and Dropdown Management (From Webpage 1) ---
     function manageNavbarItems() {
-        // --- [💥 FIX IS HERE] ---
-        // The broken logic that checked window.innerHeight has been REMOVED.
-        // This function will now ALWAYS run.
-        // The CSS media queries are correctly handling when to show/hide the
-        // desktop navbar vs. the mobile menu button.
-        
-        /* // --- REMOVED THIS ENTIRE CONFLICTING BLOCK ---
-        const isMobileLayout = window.innerWidth <= 768 || (window.innerWidth <= 992 && window.innerHeight <= 500);
-
-        if (isMobileLayout) {
-            desktopNavbar.style.visibility = 'hidden';
-            return;
-        }
-        */
-        // --- [END OF FIX] ---
-
-        // Now we just always make sure the navbar is visible (if the CSS allows it)
-        // and proceed with the priority navigation logic.
         desktopNavbar.style.visibility = 'visible';
         const navbarContainer = document.querySelector('.navbar-container .container');
         let moreMenuItem = desktopNavbar.querySelector('.more-menu-item');
@@ -824,48 +806,72 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
+    // --- [START OF FIX] ---
+    // --- (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
-    
+
+        const GAP = 10; // The desired gap from the viewport edge in pixels
+        const viewportWidth = window.innerWidth;
+        const dropdownWidth = dropdownElement.offsetWidth; // Use offsetWidth for accurate width calculation
+        
+        const parentLi = dropdownElement.closest('li.has-dropdown');
+        if (!parentLi) return;
+        
+        const parentRect = parentLi.getBoundingClientRect();
+        const isNested = parentLi.parentElement.classList.contains('dropdown');
+
         // Reset alignment classes before checking
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
-    
-        const rect = dropdownElement.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const parentLi = dropdownElement.closest('li.has-dropdown');
-        
-        if (!parentLi) return;
-    
-        const isNested = parentLi.parentElement.classList.contains('dropdown');
-    
+
         if (isNested) {
-            const parentRect = parentLi.getBoundingClientRect();
-            
+            // --- Logic for NESTED dropdowns (L2+) ---
+
             // Check if it overflows on the right (default position)
-            const overflowsRight = (parentRect.right + rect.width) > viewportWidth;
+            const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
             
-            // Check if there is enough space to flip it to the left
-            const hasSpaceLeft = parentRect.left > rect.width;
-    
             if (overflowsRight) {
+                // It overflows right. Check if it has space on the left.
+                const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
+
                 if (hasSpaceLeft) {
-                    // Enough space on the left, so just flip it
+                    // Enough space on the left, so flip it
                     dropdownElement.classList.add('align-left');
                 } else {
-                    // Not enough space on the left either (common on high zoom)
-                    // Use the edge-aligned class to keep it within the parent bounds
+                    // Not enough space on the left either (e.g., high zoom)
+                    // Use the 'align-left-edge' class as a fallback
                     dropdownElement.classList.add('align-left-edge');
                 }
             }
-            // If it doesn't overflow right, no class is needed (default behavior)
-    
-        } else { // For top-level dropdowns
-            if (rect.right > viewportWidth) {
+            // If it doesn't overflow right, no class is added (default position is correct)
+
+        } else { 
+            // --- Logic for TOP-LEVEL dropdowns (L1) ---
+            
+            // Get the dropdown's default (left-aligned) position's right edge
+            // Note: L1 dropdowns are left:0 relative to the parent, so parentRect.left is the starting point.
+            const defaultRightEdge = parentRect.left + dropdownWidth;
+
+            if (defaultRightEdge > (viewportWidth - GAP)) {
+                // It overflows right. Apply align-right.
+                // This class makes it right:0 relative to the parent.
                 dropdownElement.classList.add('align-right');
+                
+                // After applying 'align-right', its new left edge will be (parentRect.right - dropdownWidth)
+                const newLeftEdge = parentRect.right - dropdownWidth;
+                
+                if (newLeftEdge < GAP) {
+                    // It *also* overflows on the left.
+                    // This means the menu is wider than the space available relative to the parent.
+                    // We will keep 'align-right' as it's the most reasonable fallback.
+                    // The L1 menu will be aligned to the right of the parent item and overflow to the left.
+                }
             }
+            // If it doesn't overflow right, no class is added (default position is correct)
         }
     }
+    // --- [END OF FIX] ---
+
 
     // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
     function repositionOpenDropdowns() {
@@ -911,6 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isCurrentlyOpen) {
                 const dropdown = parentLi.querySelector('.dropdown');
                 // Run the check to correctly position the dropdown
+                // This is the crucial call to the fixed function
                 checkDropdownPosition(dropdown);
             }
         }
