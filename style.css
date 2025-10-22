@@ -199,24 +199,52 @@ header > .container {
     align-items: center;
 }
 
+/* --- [START OF FEATURE 1 STYLE CHANGES] --- */
+
+/* Base styles for all icons */
 .has-dropdown > a i,
 .has-dropdown > a .equals-icon {
-    margin-left: 0.3125rem; /* 5px */
     font-size: 0.7rem;
     transition: transform 0.3s ease;
 }
 
+/* Down arrow (default state) */
+.has-dropdown > a i {
+    margin-left: 0.3125rem; /* 5px */
+    display: inline-block;
+}
+
+/* Equals icons (hidden by default) */
 .has-dropdown > a .equals-icon {
     display: none;
 }
+.has-dropdown > a .equals-icon-left {
+    margin-right: 0.3125rem; /* 5px */
+}
+.has-dropdown > a .equals-icon-right {
+    margin-left: 0.3125rem; /* 5px */
+}
 
+/* When menu is open, hide down arrow */
 .has-dropdown.show-submenu > a i {
     display: none;
 }
 
-.has-dropdown.show-submenu > a .equals-icon {
+/* When menu is open, show RIGHT icon by default */
+.has-dropdown.show-submenu > a .equals-icon-right {
     display: inline-block;
 }
+
+/* Override: When menu opens LEFT, hide right icon and show LEFT icon */
+.has-dropdown.opens-left.show-submenu > a .equals-icon-right {
+    display: none;
+}
+.has-dropdown.opens-left.show-submenu > a .equals-icon-left {
+    display: inline-block;
+}
+
+/* --- [END OF FEATURE 1 STYLE CHANGES] --- */
+
 
 .has-dropdown.show-submenu > a {
     background-color: var(--primary-color);
@@ -322,6 +350,16 @@ header > .container {
     border-left: none;
     border-right: 2px solid var(--primary-color);
 }
+
+/* --- [START OF FEATURE 2 STYLE] --- */
+/* Dark outline on the *last* open dropdown in a chain */
+.has-dropdown.show-submenu > ul.dropdown:not(:has(.has-dropdown.show-submenu)) {
+    outline: 2px solid var(--dark-color);
+    outline-offset: -1px; /* Draws outline just inside the element's edge */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Enhance shadow */
+}
+/* --- [END OF FEATURE 2 STYLE] --- */
+
 
 .donate-button {
     background-color: transparent;
@@ -889,7 +927,11 @@ footer {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-.mobile-menu .has-submenu .menu-toggle .equals-icon {
+.mobile-menu .has-submenu .menu-toggle .equals-icon-left {
+    display: none; /* Not needed for mobile */
+}
+
+.mobile-menu .has-submenu .menu-toggle .equals-icon-right {
     display: none;
 }
 
@@ -897,7 +939,7 @@ footer {
     display: none;
 }
 
-.mobile-menu .has-submenu.active .menu-toggle .equals-icon {
+.mobile-menu .has-submenu.active .menu-toggle .equals-icon-right {
     display: inline-block;
 }
 
@@ -972,9 +1014,7 @@ footer {
         height: 5rem; /* 80px */
     }
 
-
-
-
-
-
-
+    .carousel-container {
+        height: 12.5rem; /* 200px */
+    }
+}
