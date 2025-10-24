@@ -41,7 +41,7 @@ html, body {
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    /* overflow-x: hidden; */ /* <--- REMOVED: This was breaking position: sticky */
+    overflow-x: hidden;
 }
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
@@ -50,7 +50,6 @@ body {
     margin: 0 auto;     /* Centers the page */
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
-    overflow-x: clip; /* <--- ADDED: Prevents horizontal scroll without breaking sticky nav */
 }
 
 .container {
@@ -145,7 +144,7 @@ header > .container {
 
 /* Navbar Container */
 .navbar-container {
-    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
+    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
@@ -280,6 +279,11 @@ header > .container {
     grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr)); /* 140px */
     gap: 0.375rem; /* 6px */
     border-top: 2px solid var(--secondary-color);
+
+    /* --- ADDED FOR SCROLLING ON ZOOM --- */
+    max-height: 85vh; /* Max height is 85% of viewport height */
+    overflow-y: auto;   /* Add vertical scroll if content exceeds max-height */
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .has-dropdown.show-submenu > .dropdown {
@@ -364,7 +368,7 @@ header > .container {
 /* --- [START OF FEATURE 2 STYLE] --- */
 /* Dark outline on the *last* open dropdown in a chain */
 .has-dropdown.show-submenu > ul.dropdown:not(:has(.has-dropdown.show-submenu)) {
-    outline: 2px solid #6F4E37;
+    outline: 2px solid var(--dark-color);
     outline-offset: -1px; /* Draws outline just inside the element's edge */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Enhance shadow */
 }
@@ -395,7 +399,7 @@ header > .container {
 
 /* Mobile Menu Bar */
 .menu-bar-container {
-    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
+    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
     box-shadow: var(--shadow);
     display: none;
     justify-content: flex-end;
@@ -658,7 +662,7 @@ header > .container {
 .about-image img {
     max-width: 100%;
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
 }
 
