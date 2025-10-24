@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mriga's Echoing Tangency (M. E. T.)</title>
+
+    <script>
+        (function() {
+            try {
+                // Check if window.innerWidth (the "virtual" width, e.g., 980px)
+                // is significantly larger than screen.width (the "physical" width, e.g., 412px).
+                // This is a reliable heuristic for "Desktop Site" mode.
+                // We also check if the virtual width is at least tablet-sized.
+                var isDesktopMode = (window.innerWidth > screen.width * 1.5) && (window.innerWidth >= 769);
+
+                if (isDesktopMode) {
+                    // Find the viewport meta tag
+                    var viewport = document.querySelector('meta[name="viewport"]');
+                    if (viewport) {
+                        // Change its content to force a wide, non-squished layout.
+                        // Using 1024px is a
+                        viewport.setAttribute('content', 'width=1024, initial-scale=1.0');
+                    }
+                }
+            } catch (e) {
+                // Failsafe in case of any errors
+                console.error("Error in viewport fix script: ", e);
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -12,7 +37,7 @@
     <audio id="Web-tune" src="assets/audios/Web-tune (Ekla Cholo).mp3" loop></audio>
 
     <header>
-        <img src="assets/photos/Header.jpg" alt="Header Background" class="header-bg">
+        <img src="assets://photos/Header.jpg" alt="Header Background" class="header-bg">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
