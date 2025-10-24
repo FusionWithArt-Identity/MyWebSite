@@ -41,7 +41,7 @@ html, body {
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
