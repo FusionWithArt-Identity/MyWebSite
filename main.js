@@ -426,6 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'photos-world-cup-match': {
             title: 'World Cup Match, Felicitation of Anik Ghosh & Dinner',
             text: '<p>Photos from the World Cup Match event, felicitation of Anik Ghosh, and dinner.</p>'
+custom.js 
         },
         'photos-coaches-training': {
             title: '21 days Coaches training programme at Kalyani',
@@ -700,7 +701,10 @@ document.addEventListener('DOMContentLoaded', function() {
             html += `${item.label}`;
             if (hasSubmenu) {
                 if (parentType === 'mobile') {
-                     html += `<i class="fas fa-chevron-down"></i><span class="equals-icon equals-icon-right">=</span>`;
+                     // --- [START OF FIX 2] ---
+                     // Removed the "=" span icon for mobile. CSS will handle rotating the chevron.
+                     html += `<i class="fas fa-chevron-down"></i>`;
+                     // --- [END OF FIX 2] ---
                 } else {
                     html += `<i class="fas fa-chevron-down"></i>`;
                     html += `<span class="equals-icon equals-icon-right">=</span>`; // Renamed right icon
