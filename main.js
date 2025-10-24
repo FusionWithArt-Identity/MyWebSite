@@ -871,12 +871,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // --- [NEW] FUNCTION TO CHECK/APPLY VERTICAL SCROLLING ---
+    function checkDropdownHeight(dropdownElement) {
+        if (!dropdownElement) return;
 
-    // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
+        const GAP = 10; // Gap from the bottom of the viewport
+        const MIN_HEIGHT = 100; // Minimum scrollable height in pixels
+
+        // 1. Reset styles first to get natural height
+        dropdownElement.style.maxHeight = '';
+        dropdownElement.style.overflowY = '';
+
+        // 2. Get measurements
+        const rect = dropdownElement.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // 3. Check for overflow
+        if (rect.bottom > (viewportHeight - GAP)) {
+            // It overflows. Calculate new max-height.
+            const newMaxHeight = viewportHeight - rect.top - GAP;
+            
+            // 4. Apply new styles
+            dropdownElement.style.maxHeight = `${Math.max(newMaxHeight, MIN_HEIGHT)}px`;
+            dropdownElement.style.overflowY = 'auto';
+        }
+        // 5. If it doesn't overflow, the reset styles remain, and it's fine.
+    }
+
+
+    // --- [MODIFIED] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
     function repositionOpenDropdowns() {
         const openDropdowns = document.querySelectorAll('.has-dropdown.show-submenu > .dropdown');
         openDropdowns.forEach(dropdown => {
             checkDropdownPosition(dropdown);
+            checkDropdownHeight(dropdown); // Also re-check height on resize
         });
     }
 
@@ -926,6 +954,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dropdown = parentLi.querySelector('.dropdown');
                 // Run the check to correctly position the dropdown
                 checkDropdownPosition(dropdown);
+                // --- [NEW] ---
+                checkDropdownHeight(dropdown); // Check for vertical overflow
             }
         }
 
