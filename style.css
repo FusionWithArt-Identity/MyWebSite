@@ -46,7 +46,7 @@ html, body {
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
 body {
-    max-width: 2600px; /* Constrains the entire page to match your .container */
+    max-width: 1800px; /* Constrains the entire page to match your .container */
     margin: 0 auto;     /* Centers the page */
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
