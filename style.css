@@ -895,18 +895,48 @@ footer {
     cursor: pointer;
 }
 
+/* --- [START OF FIX 1: Boxy Mobile Submenus] --- */
 .mobile-menu .submenu {
     list-style: none;
     background-color: var(--tertiary-color);
-    padding-left: 0.9375rem; /* 15px */
+    
+    /* Box Styles */
+    margin: 0.25rem 0.5rem 0.5rem 0.5rem; /* T, R/L, B */
+    padding-left: 0.9375rem; /* 15px - Kept for indentation */
+    padding-right: 0.5rem;
+    border-radius: 0.25rem; /* 4px */
+    border: 1px solid var(--secondary-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+
+    /* Collapse Styles */
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease-in-out;
+    
+    /* Animation: Start collapsed (0 padding/margin) */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    
+    /* Animation: Transition properties */
+    transition: max-height 0.35s ease-in-out, 
+                padding-top 0.35s ease-in-out,
+                padding-bottom 0.35s ease-in-out,
+                margin-top 0.35s ease-in-out,
+                margin-bottom 0.35s ease-in-out;
 }
 
 .mobile-menu .has-submenu.active > .submenu {
     max-height: 93.75rem; /* 1500px */
+    
+    /* Animation: Expanded state */
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
+/* --- [END OF FIX 1] --- */
+
 
 .mobile-menu .submenu li a:hover,
 .mobile-menu .submenu li a:active,
@@ -923,25 +953,32 @@ footer {
     border-bottom: none;
 }
 
+/* --- [MODIFIED FOR FIX 1] --- */
 .mobile-menu .submenu .submenu {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 0.5); /* Lighter */
+    border-color: var(--primary-color);
 }
+/* --- [END OF MODIFICATION] --- */
 
-.mobile-menu .has-submenu .menu-toggle .equals-icon-left {
-    display: none; /* Not needed for mobile */
-}
 
+/* --- [START OF FIX 2: Mobile Icon Toggle] --- */
+.mobile-menu .has-submenu .menu-toggle .equals-icon-left,
 .mobile-menu .has-submenu .menu-toggle .equals-icon-right {
-    display: none;
+    display: none; /* Hide all equals icons on mobile */
 }
 
+/* Style the chevron icon */
+.mobile-menu .has-submenu .menu-toggle i {
+    display: inline-block; /* Make sure it's visible */
+    transition: transform 0.35s ease-in-out;
+}
+
+/* Rotate the chevron when active (expanded) */
 .mobile-menu .has-submenu.active .menu-toggle i {
-    display: none;
+    transform: rotate(180deg);
 }
+/* --- [END OF FIX 2] --- */
 
-.mobile-menu .has-submenu.active .menu-toggle .equals-icon-right {
-    display: inline-block;
-}
 
 /* --- DESKTOP STYLES --- */
 @media (min-width: 993px) {
