@@ -35,6 +35,9 @@ html {
 }
 
 html, body {
+    /* --- [FIX START] --- */
+    min-height: 100vh; /* Ensures a defined height for sticky context */
+    /* --- [FIX END] --- */
     background-color: #E6D2B5; /* Light Chocolate Background */
     color: var(--text-color);
     line-height: 1.5; /* Increased for better readability */
@@ -974,7 +977,6 @@ footer {
 }
 
 /* Rotate the chevron when active (expanded) */
-/* --- THIS IS THE FIXED LINE --- */
 .mobile-menu .has-submenu.active > .menu-toggle > i {
     transform: rotate(180deg);
 }
