@@ -364,7 +364,7 @@ header > .container {
 /* --- [START OF FEATURE 2 STYLE] --- */
 /* Dark outline on the *last* open dropdown in a chain */
 .has-dropdown.show-submenu > ul.dropdown:not(:has(.has-dropdown.show-submenu)) {
-    outline: 2px solid var(--dark-color);
+    outline: 2px solid #6F4E37;
     outline-offset: -1px; /* Draws outline just inside the element's edge */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Enhance shadow */
 }
@@ -658,7 +658,7 @@ header > .container {
 .about-image img {
     max-width: 100%;
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
 }
 
