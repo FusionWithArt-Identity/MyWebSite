@@ -144,7 +144,7 @@ header > .container {
 
 /* Navbar Container */
 .navbar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* --- MODIFIED --- */
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
@@ -363,7 +363,7 @@ header > .container {
 /* --- [START OF FEATURE 2 STYLE] --- */
 /* Dark outline on the *last* open dropdown in a chain */
 .has-dropdown.show-submenu > ul.dropdown:not(:has(.has-dropdown.show-submenu)) {
-    outline: 2px #6F4E37;
+    outline: 2px solid #6F4E37; /* --- FIXED: Added 'solid' --- */
     outline-offset: -1px; /* Draws outline just inside the element's edge */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Enhance shadow */
 }
@@ -394,7 +394,7 @@ header > .container {
 
 /* Mobile Menu Bar */
 .menu-bar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* --- MODIFIED --- */
     box-shadow: var(--shadow);
     display: none;
     justify-content: flex-end;
