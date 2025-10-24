@@ -148,7 +148,7 @@ header > .container {
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index:1000;
+    z-index:9999f;
 }
 
 .navbar {
@@ -273,7 +273,7 @@ header > .container {
     visibility: hidden;
     transform: translateY(0.625rem); /* 10px */
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 9998;
     padding: 0.5rem; /* 8px */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr)); /* 140px */
