@@ -279,11 +279,9 @@ header > .container {
     grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr)); /* 140px */
     gap: 0.375rem; /* 6px */
     border-top: 2px solid var(--secondary-color);
-
-    /* --- ADDED FOR SCROLLING ON ZOOM --- */
-    max-height: 85vh; /* Max height is 85% of viewport height */
-    overflow-y: auto;   /* Add vertical scroll if content exceeds max-height */
-    overflow-x: hidden; /* Prevent horizontal overflow */
+    
+    /* --- CRITICAL: Ensure NO default max-height or overflow-y is here! --- */
+    /* JS will handle this dynamically with inline styles when needed. */
 }
 
 .has-dropdown.show-submenu > .dropdown {
