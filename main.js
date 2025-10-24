@@ -517,7 +517,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Special Practice Session by Dr. Mahesh Khetmalis Video',
             text: '<p>Video from a special practice session conducted by Dr. Mahesh Khetmalis.</p>',
             media: [
-                { type:Two: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
+                // --- [THIS WAS THE FIX] ---
+                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
             ]
         },
         'videos-practice-dr-jewel': {
