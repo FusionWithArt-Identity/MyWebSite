@@ -32,6 +32,7 @@ body, img, a, p, h1, h2, h3, h4, span, div, li {
 html {
     font-size: 100%; /* Base for REM units (1rem = 16px) */
     scroll-behavior: smooth;
+    height: 100%;
     background-color: #E6D2B5; /* --- ADDED --- */ /* This is now the "gutter" color */
 }
 
