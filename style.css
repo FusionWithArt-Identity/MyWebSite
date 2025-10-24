@@ -974,7 +974,8 @@ footer {
 }
 
 /* Rotate the chevron when active (expanded) */
-.mobile-menu .has-submenu.active .menu-toggle i {
+/* --- THIS IS THE FIXED LINE --- */
+.mobile-menu .has-submenu.active > .menu-toggle > i {
     transform: rotate(180deg);
 }
 /* --- [END OF FIX 2] --- */
