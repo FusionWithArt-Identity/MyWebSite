@@ -51,11 +51,12 @@ body {
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
     overflow-x: clip; /* <--- ADDED: Prevents horizontal scroll without breaking sticky nav */
+    min-width: 769px; /* <--- NEW FIX: Forces body to desktop width when desktop media queries are active */
 }
 
 .container {
     width: 100%;
-    max-width: 2600px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 0.625rem; /* 10px */
 }
@@ -1006,6 +1007,10 @@ footer {
 
 /* --- TABLET/MOBILE STYLES --- */
 @media (max-width: 768px), (max-width: 992px) and (max-height: 500px) {
+    body {
+        min-width: 0; /* <--- NEW FIX: Undoes the desktop min-width for mobile/responsive view */
+    }
+    
     .header-content {
         flex-direction: row;
         justify-content: center;
