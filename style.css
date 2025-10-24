@@ -272,7 +272,8 @@ header > .container {
     opacity: 0;
     visibility: hidden;
     transform: translateY(0.625rem); /* 10px */
-    transition: all 0.3s ease;
+    /* --- MODIFIED: Removed 'all' to prevent max-height animation --- */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     z-index: 1000;
     padding: 0.5rem; /* 8px */
     display: grid;
@@ -328,7 +329,8 @@ header > .container {
     border-left: 2px solid var(--primary-color);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    /* --- MODIFIED: Removed 'all' to prevent max-height animation --- */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
 .dropdown .has-dropdown.show-submenu > .dropdown {
@@ -657,7 +659,7 @@ header > .container {
 .about-image img {
     max-width: 100%;
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
 }
 
