@@ -32,7 +32,6 @@ body, img, a, p, h1, h2, h3, h4, span, div, li {
 html {
     font-size: 100%; /* Base for REM units (1rem = 16px) */
     scroll-behavior: smooth;
-    height: 100%;
     background-color: #E6D2B5; /* --- ADDED --- */ /* This is now the "gutter" color */
 }
 
@@ -42,7 +41,7 @@ html, body {
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    overflow-x: clip;
+    /* overflow-x: hidden; */ /* <--- REMOVED: This was breaking position: sticky */
 }
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
@@ -51,6 +50,7 @@ body {
     margin: 0 auto;     /* Centers the page */
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
+    overflow-x: clip; /* <--- ADDED: Prevents horizontal scroll without breaking sticky nav */
 }
 
 .container {
@@ -145,11 +145,11 @@ header > .container {
 
 /* Navbar Container */
 .navbar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index: 9999;
+    z-index: 1000;
 }
 
 .navbar {
@@ -364,7 +364,7 @@ header > .container {
 /* --- [START OF FEATURE 2 STYLE] --- */
 /* Dark outline on the *last* open dropdown in a chain */
 .has-dropdown.show-submenu > ul.dropdown:not(:has(.has-dropdown.show-submenu)) {
-    outline: 2px solid #6F4E37;
+    outline: 2px solid var(--dark-color);
     outline-offset: -1px; /* Draws outline just inside the element's edge */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Enhance shadow */
 }
@@ -395,7 +395,7 @@ header > .container {
 
 /* Mobile Menu Bar */
 .menu-bar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
     box-shadow: var(--shadow);
     display: none;
     justify-content: flex-end;
@@ -404,7 +404,7 @@ header > .container {
     margin-bottom: 0.9375rem; /* 15px */
     position: sticky; /* Makes the mobile menu button sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index: 9998;
+    z-index: 100;
 }
 
 .menu-text {
@@ -658,7 +658,7 @@ header > .container {
 .about-image img {
     max-width: 100%;
     width: 100%;
-    height:100%;
+    height: auto;
     display: block;
 }
 
