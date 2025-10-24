@@ -33,6 +33,12 @@ html {
     font-size: 100%; /* Base for REM units (1rem = 16px) */
     scroll-behavior: smooth;
     background-color: #E6D2B5; /* --- ADDED --- */ /* This is now the "gutter" color */
+    
+    /* <--- START OF FIX --- */
+    /* This forces the ROOT element to be at least desktop width. */
+    /* This is the fix for the "Desktop Site" mode bug. */
+    min-width: 769px !important; 
+    /* <--- END OF FIX --- */
 }
 
 html, body {
@@ -51,11 +57,7 @@ body {
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
     overflow-x: clip; /* <--- ADDED: Prevents horizontal scroll without breaking sticky nav */
-    /* <--- START OF FIX --- */
-    /* This forces the body to be at least desktop width. */
-    /* !important is needed to fight the browser's "Desktop Site" + "meta viewport" conflict. */
-    min-width: 769px !important; 
-    /* <--- END OF FIX --- */
+    /* min-width was moved from here to the <html> tag */
 }
 
 .container {
@@ -1011,11 +1013,15 @@ footer {
 
 /* --- TABLET/MOBILE STYLES --- */
 @media (max-width: 768px), (max-width: 992px) and (max-height: 500px) {
-    body {
+    html {
         /* <--- START OF FIX --- */
         /* This undoes the desktop min-width for the normal mobile view. */
         min-width: 0 !important; 
         /* <--- END OF FIX --- */
+    }
+
+    body {
+        /* min-width rule was here, but is no longer needed */
     }
     
     .header-content {
