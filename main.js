@@ -663,6 +663,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeAllDesktopDropdowns() {
         document.querySelectorAll('.navbar .has-dropdown').forEach(item => {
             item.classList.remove('show-submenu', 'active');
+            // [NEW] Clear inline scroll styles on close
+            const dropdown = item.querySelector('.dropdown');
+            if(dropdown) {
+                dropdown.style.maxHeight = '';
+                dropdown.style.overflowY = '';
+                dropdown.style.overflowX = '';
+            }
         });
         document.querySelectorAll('.navbar > li').forEach(item => {
            item.classList.remove('active');
@@ -822,6 +829,33 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
+    // --- [NEW] FUNCTION TO DYNAMICALLY APPLY VERTICAL SCROLL ---
+    function checkAndApplyVerticalScroll(dropdownElement) {
+        if (!dropdownElement) return;
+
+        const GAP_BOTTOM = 10; // Space needed at the bottom of the viewport
+        const rect = dropdownElement.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Check if the bottom of the dropdown exceeds the viewport height, minus the required gap
+        if (rect.bottom > (viewportHeight - GAP_BOTTOM)) {
+            // Calculate the maximum height it can be, ensuring a gap at the bottom
+            // max-height = total viewport height - dropdown's top position - gap
+            const newMaxHeight = viewportHeight - rect.top - GAP_BOTTOM;
+
+            // Apply conditional styles
+            dropdownElement.style.maxHeight = `${newMaxHeight}px`;
+            dropdownElement.style.overflowY = 'auto';
+            dropdownElement.style.overflowX = 'hidden'; // Ensure no horizontal scroll is introduced
+        } else {
+            // Reset styles if it's currently scrollable but no longer overflowing
+            dropdownElement.style.maxHeight = '';
+            dropdownElement.style.overflowY = '';
+            dropdownElement.style.overflowX = '';
+        }
+    }
+
+
     // --- [MODIFIED] (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
@@ -872,11 +906,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
+    // --- [MODIFIED] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE/SCROLL ---
     function repositionOpenDropdowns() {
         const openDropdowns = document.querySelectorAll('.has-dropdown.show-submenu > .dropdown');
         openDropdowns.forEach(dropdown => {
             checkDropdownPosition(dropdown);
+            // [MODIFIED] Check and apply vertical scroll for all open dropdowns
+            checkAndApplyVerticalScroll(dropdown); 
         });
     }
 
@@ -903,10 +939,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (item !== parentLi) { 
                         item.classList.remove('show-submenu', 'active');
                         
-                        // **THIS IS THE FIX from last time:**
+                        // **FIX for nested menu closure:**
                         item.querySelectorAll('.has-dropdown.show-submenu').forEach(subItem => {
                             subItem.classList.remove('show-submenu', 'active');
                         });
+                        // [NEW] Clear scroll styles on menu closure
+                        const dropdownToClose = item.querySelector('.dropdown');
+                        if(dropdownToClose) {
+                            dropdownToClose.style.maxHeight = '';
+                            dropdownToClose.style.overflowY = '';
+                            dropdownToClose.style.overflowX = '';
+                        }
                     }
                 });
             } else {
@@ -915,6 +958,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (sibling !== parentLi && sibling.classList.contains('has-dropdown')) {
                         sibling.classList.remove('show-submenu');
                         sibling.querySelectorAll('.show-submenu').forEach(sub => sub.classList.remove('show-submenu'));
+                        // [NEW] Clear scroll styles on sibling menu closure
+                        const dropdownToClose = sibling.querySelector('.dropdown');
+                        if(dropdownToClose) {
+                            dropdownToClose.style.maxHeight = '';
+                            dropdownToClose.style.overflowY = '';
+                            dropdownToClose.style.overflowX = '';
+                        }
                     }
                 });
             }
@@ -926,6 +976,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dropdown = parentLi.querySelector('.dropdown');
                 // Run the check to correctly position the dropdown
                 checkDropdownPosition(dropdown);
+                // [NEW] Run the check to apply vertical scroll dynamically
+                checkAndApplyVerticalScroll(dropdown);
+            } else {
+                // [NEW] If closing, reset its own scroll styles
+                const dropdown = parentLi.querySelector('.dropdown');
+                if(dropdown) {
+                    dropdown.style.maxHeight = '';
+                    dropdown.style.overflowY = '';
+                    dropdown.style.overflowX = '';
+                }
             }
         }
 
@@ -1004,12 +1064,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('contextmenu', e => e.preventDefault());
 
+    // [NEW] Re-evaluate open dropdowns on scroll or resize
+    window.addEventListener('scroll', () => {
+        repositionOpenDropdowns();
+    });
+    
     window.addEventListener('load', () => {
         manageNavbarItems();
         // [MODIFIED] Attach both functions to the resize event
         window.addEventListener('resize', () => {
             manageNavbarItems();
-            repositionOpenDropdowns(); // Re-check dropdown positions on resize/zoom
+            repositionOpenDropdowns(); // Re-check dropdown positions and scroll on resize/zoom
         });
     });
 });
