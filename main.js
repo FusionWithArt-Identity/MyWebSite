@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         break;
                 }
                 if (mediaItem.caption || mediaItem.title) {
-                    mediaSection += `<h4>${mediaItem.caption || mediaItem.title}</h4>`;
+                    mediaSection += `<h4>${mediaItem.caption || mediaT.title}</h4>`;
                 }
                 mediaSection += '</div>';
             });
