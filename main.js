@@ -426,6 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'photos-world-cup-match': {
             title: 'World Cup Match, Felicitation of Anik Ghosh & Dinner',
             text: '<p>Photos from the World Cup Match event, felicitation of Anik Ghosh, and dinner.</p>'
+Service/ tax/ ... - 6`
         },
         'photos-coaches-training': {
             title: '21 days Coaches training programme at Kalyani',
@@ -503,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Iskabon Film at Gitanjali Hall Video',
             text: '<p>Video coverage of the Iscabon Film screening at Gitanjali Hall.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Iskabon Film Video' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'Iskabon Film Video' }
             ]
         },
         'videos-sub-junior-practice': {
@@ -517,28 +518,28 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Special Practice Session by Dr. Mahesh Khetmalis Video',
             text: '<p>Video from a special practice session conducted by Dr. Mahesh Khetmalis.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
             ]
         },
         'videos-practice-dr-jewel': {
             title: 'Special Practice Session by Dr. Shahidul Islam Jewel Video',
             text: '<p>Video from a special practice session conducted by Dr. Shahidul Islam Jewel.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Jewel Session' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Jewel Session' }
             ]
         },
         'videos-practice-session': {
             title: 'Practice Session Video',
             text: '<p>Video highlights of our general practice sessions.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'General Practice' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'General Practice' }
             ]
         },
         'videos-practice-match-dhansara': {
             title: 'Practice Match at Dhansara Video',
             text: '<p>Video from a practice match held at Dhansara.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dhansara Practice Match' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'Dhansara Practice Match' }
             ]
         },
         'videos-challenge-tournament-2023': {
@@ -552,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Bar Puja Video',
             text: '<p>Video coverage of the Bar Puja celebration.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Bar Puja Video' }
+                { type: 'video', src: 'https.www.w3schools.com/html/mov_bbb.mp4', title: 'Bar Puja Video' }
             ]
         },
         'contact': {
@@ -741,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mediaSection += '<div class="media-item">';
                 switch (mediaItem.type) {
                     case 'image':
-                        mediaSection += `<img src="${mediaItem.src}" alt="${mediaItem.alt || ''}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/333333?text=Image+Not+Found';">`;
+                        mediaSection += `<img src="${mediaItem.src}" alt="${mediaItem.alt || ''}" onerror="this.onerror=null;this.src='https.placehold.co/600x400/CCCCCC/333333?text=Image+Not+Found';">`;
                         break;
                     case 'video':
                         mediaSection += `<video controls><source src="${mediaItem.src}" type="video/mp4">Your browser does not support the video tag.</video>`;
@@ -871,7 +872,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- [NEW] FUNCTION TO CHECK/APPLY VERTICAL SCROLLING ---
+
+    // --- [NEW] (CORRECTED) FUNCTION TO CHECK/APPLY VERTICAL SCROLLING ---
     function checkDropdownHeight(dropdownElement) {
         if (!dropdownElement) return;
 
@@ -881,6 +883,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 1. Reset styles first to get natural height
         dropdownElement.style.maxHeight = '';
         dropdownElement.style.overflowY = '';
+        dropdownElement.style.overflowX = ''; // Also reset this
 
         // 2. Get measurements
         const rect = dropdownElement.getBoundingClientRect();
@@ -888,12 +891,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 3. Check for overflow
         if (rect.bottom > (viewportHeight - GAP)) {
-            // It overflows. Calculate new max-height.
+            // It overflows. 
+            // --- [THIS IS THE CRITICAL FIX] ---
+            // Check if this dropdown *contains* any nested submenus.
+            const hasNestedMenus = dropdownElement.querySelector('li.has-dropdown');
+
+            if (hasNestedMenus) {
+                // This dropdown has children. Applying overflow-y will clip them.
+                // We must not apply overflow. We do nothing and allow it to overflow.
+                return; 
+            }
+            // --- [END OF FIX] ---
+
+            // If we are here, it means it overflows AND has no nested menus.
+            // It is safe to apply a scrollbar.
             const newMaxHeight = viewportHeight - rect.top - GAP;
             
             // 4. Apply new styles
             dropdownElement.style.maxHeight = `${Math.max(newMaxHeight, MIN_HEIGHT)}px`;
             dropdownElement.style.overflowY = 'auto';
+            dropdownElement.style.overflowX = 'hidden'; // Prevent horizontal scroll
         }
         // 5. If it doesn't overflow, the reset styles remain, and it's fine.
     }
@@ -954,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dropdown = parentLi.querySelector('.dropdown');
                 // Run the check to correctly position the dropdown
                 checkDropdownPosition(dropdown);
-                // --- [NEW] ---
+                // --- [MODIFIED] ---
                 checkDropdownHeight(dropdown); // Check for vertical overflow
             }
         }
