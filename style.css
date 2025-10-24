@@ -41,7 +41,7 @@ html, body {
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */ /* <--- REMOVED: This was breaking position: sticky */
 }
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
@@ -50,6 +50,7 @@ body {
     margin: 0 auto;     /* Centers the page */
     background-color: var(--light-color); /* The page "sheet" background */
     box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Optional: adds depth */
+    overflow-x: clip; /* <--- ADDED: Prevents horizontal scroll without breaking sticky nav */
 }
 
 .container {
@@ -144,7 +145,7 @@ header > .container {
 
 /* Navbar Container */
 .navbar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
@@ -394,7 +395,7 @@ header > .container {
 
 /* Mobile Menu Bar */
 .menu-bar-container {
-    /* background-color: var(--light-color); */ /* --- REMOVED --- */ /* Now inherits from body */
+    background-color: var(--light-color); /* <--- FIX: Re-enabled this line */
     box-shadow: var(--shadow);
     display: none;
     justify-content: flex-end;
