@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
             submenu: [
                 { label: 'Advisory Committee', contentKey: 'advisory-committee' },
                 { label: 'Objectives', contentKey: 'objectives' },
-                { label: 'Profile STA', contentKey: 'profile-sta' },
+                { label: 'Profile M. E. T.', contentKey: 'profile-sta' },
                 { label: 'Achievement', contentKey: 'achievement' },
                 { label: 'Events & Activities', contentKey: 'events-activities' },
-                { label: 'Child Safeguarding Policy of STA', contentKey: 'child-safeguarding' },
+                { label: 'Child Safeguarding Policy of M. E. T.', contentKey: 'child-safeguarding' },
                 {
                     label: 'Recognition',
                     submenu: [
@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     submenu: [
                         { label: 'Exhibition match', contentKey: 'photos-exhibition-match-1' },
                         { label: 'Exhibition match against Makrampur team', contentKey: 'photos-exhibition-match-makrampur' },
-                        { label: 'Exhibition (International) Match STA Junior Vs DAV Kathmandu Nepal', contentKey: 'photos-exhibition-match-nepal' },
-                        { label: 'Exhibition match in between STA vs Kankutia', contentKey: 'photos-exhibition-match-kankutia' },
-                        { label: 'Exhibition match STA (Sr) Vs Kick for help', contentKey: 'photos-exhibition-match-kick-for-help' },
-                        { label: 'Exhibition match STA (Sub-junior) Vs Ghosaldanga', contentKey: 'photos-exhibition-match-ghosaldanga' },
-                        { label: 'Exhibition match STA Vs Visva-Bharati Silpatsab-2023', contentKey: 'photos-exhibition-match-visva-bharati' }
+                        { label: 'Exhibition (International) Match M. E. T. Junior Vs DAV Kathmandu Nepal', contentKey: 'photos-exhibition-match-nepal' },
+                        { label: 'Exhibition match in between M. E. T. vs Kankutia', contentKey: 'photos-exhibition-match-kankutia' },
+                        { label: 'Exhibition match M. E. T. (Sr) Vs Kick for help', contentKey: 'photos-exhibition-match-kick-for-help' },
+                        { label: 'Exhibition match M. E. T. (Sub-junior) Vs Ghosaldanga', contentKey: 'photos-exhibition-match-ghosaldanga' },
+                        { label: 'Exhibition match M. E. T. Vs Visva-Bharati Silpatsab-2023', contentKey: 'photos-exhibition-match-visva-bharati' }
                     ]
                 },
                 { label: 'Group photos', contentKey: 'photos-group-photos' },
@@ -160,12 +160,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const contentData = {
         'home': {
-            title: 'Welcome to Santiniketan Tribal Academy',
-            text: '<p>The Santiniketan Tribal Academy is a charitable trust committed to promoting games, sports, and social work in accordance with the principles of Gurudev Rabindranath Tagore. We believe in the holistic development of our community members, fostering a spirit of cooperation and self-reliance. Our mission is to provide a nurturing environment that empowers individuals through education and opportunity.</p><p>Explore our site to learn more about our initiatives, achievements, and how you can join us in our mission.</p>'
+            title: 'Welcome to Mriga\'s Echoing Tangency',
+            text: '<p>Mriga\'s Echoing Tangency is a charitable trust committed to promoting games, sports, and social work in accordance with the principles of Gurudev Rabindranath Tagore. We believe in the holistic development of our community members, fostering a spirit of cooperation and self-reliance. Our mission is to provide a nurturing environment that empowers individuals through education and opportunity.</p><p>Explore our site to learn more about our initiatives, achievements, and how you can join us in our mission.</p>'
         },
         'profile-sta': {
-            title: 'Profile of Santiniketan Tribal Academy',
-            text: 'The Santiniketan Tribal Academy was established as a charitable trust to uplift the underprivileged communities by nurturing talent in games, sports, and social work. Following the ideals of Rabindranath Tagore, we strive to create a holistic development model that emphasizes education, cultural values, and the importance of community service. Our focus is on empowering individuals to become well-rounded citizens who can contribute positively to society. We invite you to explore our various welfare activities and learn how we are making a difference in the lives of many.'
+            title: 'Profile of Mriga\'s Echoing Tangency (M. E. T.)',
+            text: 'Mriga\'s Echoing Tangency was established as a charitable trust to uplift the underprivileged communities by nurturing talent in games, sports, and social work. Following the ideals of Rabindranath Tagore, we strive to create a holistic development model that emphasizes education, cultural values, and the importance of community service. Our focus is on empowering individuals to become well-rounded citizens who can contribute positively to society. We invite you to explore our various welfare activities and learn how we are making a difference in the lives of many.'
         },
         'advisory-committee': {
             title: 'Advisory Committee',
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'objectives': {
             title: 'Our Objectives',
-            text: '<p>Learn about the core objectives that drive Santiniketan Tribal Academy\'s mission and vision.</p>'
+            text: '<p>Learn about the core objectives that drive Mriga\'s Echoing Tangency\'s mission and vision.</p>'
         },
         'achievement': {
             title: 'Achievements',
@@ -181,10 +181,10 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'events-activities': {
             title: 'Events & Activities',
-            text: '<p>Information about past and upcoming events and activities organized by STA.</p>'
+            text: '<p>Information about past and upcoming events and activities organized by M. E. T.</p>'
         },
         'child-safeguarding': {
-            title: 'Child Safeguarding Policy of STA',
+            title: 'Child Safeguarding Policy of M. E. T.',
             text: '<p>Our commitment to ensuring the safety and well-being of all children under our care.</p>'
         },
         'affiliation': {
@@ -216,9 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'theme-song': {
             title: 'Theme Song',
-            text: '<p>Listen to the inspiring theme song of Santiniketan Tribal Academy.</p>',
+            text: '<p>Listen to the inspiring theme song of Mriga\'s Echoing Tangency.</p>',
             media: [
-                { type: 'audio', src: 'assets/audios/Web-tune (Ekla Cholo).mp3', title: 'STA Theme Song' }
+                { type: 'audio', src: 'assets/audios/Web-tune (Ekla Cholo).mp3', title: 'M. E. T. Theme Song' }
             ]
         },
         'players': {
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'memento': {
             title: 'Memento',
-            text: '<p>A collection of mementos and tokens of appreciation received by STA.</p>'
+            text: '<p>A collection of mementos and tokens of appreciation received by M. E. T..</p>'
         },
         'wish-messages': {
             title: 'Wish Messages',
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'news-clippings': {
             title: 'News Clippings',
-            text: '<p>A collection of news articles featuring Santiniketan Tribal Academy.</p>'
+            text: '<p>A collection of news articles featuring Mriga\'s Echoing Tangency.</p>'
         },
         'welfare-blood-camp': {
             title: 'Blood Detecting Camp',
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'announcement': {
             title: 'Latest Announcements',
-            text: '<p>Stay updated with the latest news and announcements from STA.</p>'
+            text: '<p>Stay updated with the latest news and announcements from M. E. T.</p>'
         },
         'photos-foundation-day': {
             title: 'Foundation Day & 1st Anniversary',
@@ -380,24 +380,24 @@ document.addEventListener('DOMContentLoaded', function() {
             text: '<p>Photos from the exhibition match against the Makrampur team.</p>'
         },
         'photos-exhibition-match-nepal': {
-            title: 'Exhibition (International) Match STA Junior Vs DAV Kathmandu Nepal',
-            text: '<p>Photos from the international exhibition match between STA Junior and DAV Kathmandu Nepal.</p>'
+            title: 'Exhibition (International) Match M. E. T. Junior Vs DAV Kathmandu Nepal',
+            text: '<p>Photos from the international exhibition match between M. E. T. Junior and DAV Kathmandu Nepal.</p>'
         },
         'photos-exhibition-match-kankutia': {
-            title: 'Exhibition Match in Between STA vs Kankutia',
-            text: '<p>Photos from the exhibition match between STA and Kankutia.</p>'
+            title: 'Exhibition Match in Between M. E. T. vs Kankutia',
+            text: '<p>Photos from the exhibition match between M. E. T. and Kankutia.</p>'
         },
         'photos-exhibition-match-kick-for-help': {
-            title: 'Exhibition Match STA (Sr) Vs Kick for Help',
-            text: '<p>Photos from the exhibition match between STA (Sr) and Kick for Help.</p>'
+            title: 'Exhibition Match M. E. T. (Sr) Vs Kick for Help',
+            text: '<p>Photos from the exhibition match between M. E. T. (Sr) and Kick for Help.</p>'
         },
         'photos-exhibition-match-ghosaldanga': {
-            title: 'Exhibition Match STA (Sub-junior) Vs Ghosaldanga',
-            text: '<p>Photos from the exhibition match between STA (Sub-junior) and Ghosaldanga.</p>'
+            title: 'Exhibition Match M. E. T. (Sub-junior) Vs Ghosaldanga',
+            text: '<p>Photos from the exhibition match between M. E. T. (Sub-junior) and Ghosaldanga.</p>'
         },
         'photos-exhibition-match-visva-bharati': {
-            title: 'Exhibition Match STA Vs Visva-Bharati Silpatsab-2023',
-            text: '<p>Photos from the exhibition match between STA and Visva-Bharati Silpatsab-2023.</p>'
+            title: 'Exhibition Match M. E. T. Vs Visva-Bharati Silpatsab-2023',
+            text: '<p>Photos from the exhibition match between M. E. T. and Visva-Bharati Silpatsab-2023.</p>'
         },
         'photos-group-photos': {
             title: 'Group Photos',
@@ -425,8 +425,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'photos-world-cup-match': {
             title: 'World Cup Match, Felicitation of Anik Ghosh & Dinner',
+            // --- FIX APPLIED HERE ---
             text: '<p>Photos from the World Cup Match event, felicitation of Anik Ghosh, and dinner.</p>'
-Service/ tax/ ... - 6`
         },
         'photos-coaches-training': {
             title: '21 days Coaches training programme at Kalyani',
@@ -563,11 +563,11 @@ Service/ tax/ ... - 6`
          'donate-us': {
             title: 'We Need Your Help!',
             text: `
-                <p>Donations, of any amount, will be most gratefully received by the authority of Santiniketan Tribal Academy. Give a helping hand to those – WHO NEED IT!</p>
-                <p>Donations by way of cheques and drafts may please be drawn in favour of <b>“Santiniketan Tribal Academy”</b> and sent to:</p>
+                <p>Donations, of any amount, will be most gratefully received by the authority of Mriga\'s Echoing Tangency. Give a helping hand to those – WHO NEED IT!</p>
+                <p>Donations by way of cheques and drafts may please be drawn in favour of <b>“Mriga\'s Echoing Tangency”</b> and sent to:</p>
                 <div style="margin-left: 20px; border-left: 2px solid #ccc; padding-left: 10px;">
                     <p>The Secretary<br>
-                    Santiniketan Tribal Academy<br>
+                    Mriga\'s Echoing Tangency<br>
                     Rabindra Pally<br>
                     Near Boniad B.Ed College<br>
                     P.O.+ P.S. Santiniketan,<br>
@@ -579,7 +579,7 @@ Service/ tax/ ... - 6`
                 <br>
                 <p>YOU MAY ALSO TRANSFER YOUR DONATIONS TO US DIRECTLY BY RTGS./ NEFT/ BANK TRANSFER:</p>
                 <div style="background-color: #f8f5ec; padding: 15px; border-radius: 8px; margin-top: 10px;">
-                    <p><b>ACCOUNT NAME:</b> Santiniketan Tribal Academy</p>
+                    <p><b>ACCOUNT NAME:</b> Mriga\'s Echoing Tangency</p>
                     <p><b>ACCOUNT NO.:</b> 41200078940</p>
                     <p><b>BANK NAME:</b> STATE BANK OF INDIA</p>
                     <p><b>BRANCH NAME:</b> Santiniketan</p>
@@ -701,10 +701,8 @@ Service/ tax/ ... - 6`
             html += `${item.label}`;
             if (hasSubmenu) {
                 if (parentType === 'mobile') {
-                     // --- [START OF FIX 2] ---
                      // Removed the "=" span icon for mobile. CSS will handle rotating the chevron.
                      html += `<i class="fas fa-chevron-down"></i>`;
-                     // --- [END OF FIX 2] ---
                 } else {
                     html += `<i class="fas fa-chevron-down"></i>`;
                     html += `<span class="equals-icon equals-icon-right">=</span>`; // Renamed right icon
@@ -742,7 +740,7 @@ Service/ tax/ ... - 6`
                 mediaSection += '<div class="media-item">';
                 switch (mediaItem.type) {
                     case 'image':
-                        mediaSection += `<img src="${mediaItem.src}" alt="${mediaItem.alt || ''}" onerror="this.onerror=null;this.src='https.placehold.co/600x400/CCCCCC/333333?text=Image+Not+Found';">`;
+                        mediaSection += `<img src="${mediaItem.src}" alt="${mediaItem.alt || ''}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/333333?text=Image+Not+Found';">`;
                         break;
                     case 'video':
                         mediaSection += `<video controls><source src="${mediaItem.src}" type="video/mp4">Your browser does not support the video tag.</video>`;
@@ -838,9 +836,7 @@ Service/ tax/ ... - 6`
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
         // Reset alignment classes before checking
-        // --- [START OF FEATURE 1 CHANGE] ---
         parentLi.classList.remove('opens-left'); // Reset icon direction class
-        // --- [END OF FEATURE 1 CHANGE] ---
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
 
 
