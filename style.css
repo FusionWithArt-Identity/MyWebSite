@@ -34,13 +34,19 @@ html {
     scroll-behavior: smooth;
 }
 
-html, body {
+/* --- [FIX] ---
+   The 'html, body' rule was split.
+   'overflow-x: hidden;' was REMOVED from the 'body' rule below.
+   This single change fixes both the 'position: sticky' issue and
+   the incorrect background scaling on page zoom.
+*/
+body {
     background-color: #E6D2B5; /* Light Chocolate Background */
     color: var(--text-color);
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    overflow-x: hidden;
+    /* overflow-x: hidden; <-- REMOVED */
 }
 
 .container {
