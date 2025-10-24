@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Special Practice Session by Dr. Mahesh Khetmalis Video',
             text: '<p>Video from a special practice session conducted by Dr. Mahesh Khetmalis.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
+                { type:Two: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
             ]
         },
         'videos-practice-dr-jewel': {
@@ -822,13 +822,15 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- [MODIFIED] (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
+    // --- [FIX #2 - MODIFIED] (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
+    // This function now uses inline styles to precisely position dropdowns
+    // against the viewport edge, respecting the 10px GAP.
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
 
         const GAP = 10; // The desired gap from the viewport edge in pixels
         const viewportWidth = window.innerWidth;
-        const dropdownWidth = dropdownElement.offsetWidth; // Use offsetWidth for accurate width calculation
+        const dropdownWidth = dropdownElement.offsetWidth;
         
         const parentLi = dropdownElement.closest('li.has-dropdown');
         if (!parentLi) return;
@@ -836,11 +838,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const parentRect = parentLi.getBoundingClientRect();
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
-        // Reset alignment classes before checking
-        // --- [START OF FEATURE 1 CHANGE] ---
-        parentLi.classList.remove('opens-left'); // Reset icon direction class
-        // --- [END OF FEATURE 1 CHANGE] ---
-        dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
+        // Reset alignment classes and styles before checking
+        parentLi.classList.remove('opens-left'); 
+        // 'align-right' is no longer used for L1 positioning, so we only reset L2+ classes
+        dropdownElement.classList.remove('align-left', 'align-left-edge'); 
+        dropdownElement.style.left = '';
+        dropdownElement.style.right = '';
 
 
         if (isNested) {
@@ -851,23 +854,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
+                    // Has space left, use class
                     dropdownElement.classList.add('align-left');
-                    parentLi.classList.add('opens-left'); // <-- ADDED
+                    parentLi.classList.add('opens-left');
                 } else {
-                    dropdownElement.classList.add('align-left-edge');
-                    parentLi.classList.add('opens-left'); // <-- ADDED
+                    // No space right, and no real space left.
+                    // Best effort: Align left edge to viewport gap.
+                    const parentLeft_vw = parentRect.left;
+                    const desiredLeft_vw = GAP;
+                    const newLeftProperty = parentLeft_vw - desiredLeft_vw;
+
+                    dropdownElement.style.left = `-${newLeftProperty}px`;
+                    dropdownElement.style.right = 'auto';
+                    parentLi.classList.add('opens-left');
                 }
             }
-            // If it doesn't overflow right, 'opens-left' remains removed (default)
+            // If it doesn't overflow right, default CSS (left: 100%) is used.
 
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
             const defaultRightEdge = parentRect.left + dropdownWidth;
 
             if (defaultRightEdge > (viewportWidth - GAP)) {
-                dropdownElement.classList.add('align-right');
+                // Overflows right. Align to right viewport edge.
+                const parentRight_vw = parentRect.right;
+                const desiredRight_vw = viewportWidth - GAP;
+                
+                // Calculate the 'right' property (relative to parent)
+                // that places the dropdown at the desired viewport edge.
+                const newRightProperty = parentRight_vw - desiredRight_vw;
+
+                dropdownElement.style.left = 'auto';
+                dropdownElement.style.right = `${newRightProperty}px`;
             }
-            // No 'opens-left' for L1 menus.
+            // If it doesn't overflow, default CSS (left: 0, right: auto) is used.
         }
     }
 
