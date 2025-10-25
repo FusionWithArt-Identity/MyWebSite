@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'photos-tournaments-2022-dhansara': {
             title: 'Dhansara Tournament -2022',
-            text: '<p>Photos from the Dhansara Tournament in 2022.</p>'
+            text: '<p>Photos from the Dhansara Tournament in 22022.</p>'
         },
         'photos-tournaments-2022-kabiguru': {
             title: 'Kabiguru Cup-2022',
@@ -822,13 +822,16 @@ document.addEventListener('DOMContentLoaded', function() {
         moreMenuItem.style.display = moreItemsExist ? 'block' : 'none';
     }
     
-    // --- [MODIFIED] (REVISED) INTELLIGENT DROPDOWN POSITIONING FUNCTION ---
+    // --- [START OF MODIFIED FUNCTION] ---
+    // --- INTELLIGENT DROPDOWN POSITIONING (HORIZONTAL & VERTICAL) ---
     function checkDropdownPosition(dropdownElement) {
         if (!dropdownElement) return;
 
         const GAP = 10; // The desired gap from the viewport edge in pixels
         const viewportWidth = window.innerWidth;
-        const dropdownWidth = dropdownElement.offsetWidth; // Use offsetWidth for accurate width calculation
+        const viewportHeight = window.innerHeight;
+        const dropdownWidth = dropdownElement.offsetWidth;
+        const dropdownHeight = dropdownElement.offsetHeight;
         
         const parentLi = dropdownElement.closest('li.has-dropdown');
         if (!parentLi) return;
@@ -836,13 +839,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const parentRect = parentLi.getBoundingClientRect();
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
-        // Reset alignment classes before checking
-        // --- [START OF FEATURE 1 CHANGE] ---
-        parentLi.classList.remove('opens-left'); // Reset icon direction class
-        // --- [END OF FEATURE 1 CHANGE] ---
+        // --- Reset all alignment classes and styles ---
+        parentLi.classList.remove('opens-left'); 
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
+        dropdownElement.style.top = ''; // Reset vertical alignment override
+        // Note: L1 menus default to top: 100%, L2+ menus default to top: 0 in CSS.
+        // We only apply style.top if we need to override this default.
 
-
+        // --- 1. HORIZONTAL POSITIONING ---
         if (isNested) {
             // --- Logic for NESTED dropdowns (L2+) ---
             const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
@@ -852,14 +856,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (hasSpaceLeft) {
                     dropdownElement.classList.add('align-left');
-                    parentLi.classList.add('opens-left'); // <-- ADDED
+                    parentLi.classList.add('opens-left');
                 } else {
+                    // Not enough space left, align to the edge
                     dropdownElement.classList.add('align-left-edge');
-                    parentLi.classList.add('opens-left'); // <-- ADDED
+                    parentLi.classList.add('opens-left');
                 }
             }
-            // If it doesn't overflow right, 'opens-left' remains removed (default)
-
+            // If it doesn't overflow right, it opens right by default.
+            
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
             const defaultRightEdge = parentRect.left + dropdownWidth;
@@ -867,9 +872,44 @@ document.addEventListener('DOMContentLoaded', function() {
             if (defaultRightEdge > (viewportWidth - GAP)) {
                 dropdownElement.classList.add('align-right');
             }
-            // No 'opens-left' for L1 menus.
+            // If it doesn't overflow right, it opens left (default)
+        }
+
+        // --- 2. VERTICAL POSITIONING ---
+        
+        let dropdownTopViewport;
+        
+        if (isNested) {
+            // Nested menus align top-to-top with parent 'li' by default (top: 0)
+            dropdownTopViewport = parentRect.top;
+        } else {
+            // L1 menus align top-to-bottom with parent 'li' by default (top: 100%)
+            dropdownTopViewport = parentRect.bottom;
+        }
+
+        const dropdownBottomViewport = dropdownTopViewport + dropdownHeight;
+        const overflowsBottom = dropdownBottomViewport > (viewportHeight - GAP);
+
+        if (overflowsBottom) {
+            // It overflows. We need to shift it up.
+            
+            // Calculate the desired top position relative to the viewport
+            let newTopViewport = viewportHeight - dropdownHeight - GAP;
+
+            // Ensure the dropdown doesn't go *above* the top of the viewport
+            if (newTopViewport < GAP) {
+                newTopViewport = GAP;
+            }
+
+            // This calculation works for both L1 and L2+ menus.
+            // It calculates the new 'top' property relative to the parent 'li'
+            // that will result in the desired 'newTopViewport' position.
+            const newTopRelative = newTopViewport - parentRect.top;
+
+            dropdownElement.style.top = newTopRelative + 'px';
         }
     }
+    // --- [END OF MODIFIED FUNCTION] ---
 
 
     // --- [NEW] FUNCTION TO RE-EVALUATE OPEN DROPDOWNS ON RESIZE ---
