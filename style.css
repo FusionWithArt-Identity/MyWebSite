@@ -272,8 +272,11 @@ header > .container {
     list-style: none;
     opacity: 0;
     visibility: hidden;
-    /* FIX: Removed 'transform: translateY(0.625rem)' to prevent click-through bug during animation */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* FIX: Changed from 'all' to just 'opacity' and 'visibility' */
+    transform: translateY(0.625rem); /* 10px */
+    /* FIX: Immediately disable clicks. It will be enabled when 'show-submenu' is added. */
+    pointer-events: none; 
+    /* FIX: Only transition the properties we animate. Do NOT transition pointer-events or visibility. */
+    transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 1000;
     padding: 0.5rem; /* 8px */
     display: grid;
@@ -285,10 +288,11 @@ header > .container {
 .has-dropdown.show-submenu > .dropdown {
     opacity: 1;
     visibility: visible;
-    /* FIX: Removed 'transform: translateY(0)' as it's no longer needed */
+    transform: translateY(0);
+    /* FIX: Re-enable clicks only when the dropdown is open. */
+    pointer-events: auto;
 }
 /* --- [END OF BUG FIX] --- */
-
 
 .dropdown li {
     position: relative;
@@ -332,6 +336,8 @@ header > .container {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    /* FIX: Sub-sub-menus also need pointer-events logic */
+    pointer-events: none;
 }
 
 .dropdown .has-dropdown.show-submenu > .dropdown {
@@ -339,6 +345,8 @@ header > .container {
     visibility: visible;
     transform: translateY(0);
     z-index: 1100;
+    /* FIX: Sub-sub-menus also need pointer-events logic */
+    pointer-events: auto;
 }
 
 .dropdown.align-right {
