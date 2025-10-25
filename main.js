@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'photos-tournaments-2022-dhansara': {
             title: 'Dhansara Tournament -2022',
-            text: '<p>Photos from the Dhansara Tournament in 2022.</p>'
+            text: '<p>Photos from the Dhansara Tournament in 22022.</p>'
         },
         'photos-tournaments-2022-kabiguru': {
             title: 'Kabiguru Cup-2022',
@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         'videos-iskabon-film': {
-            title: 'Iskabon-Film at Gitanjali Hall Video',
+            title: 'Iskabon Film at Gitanjali Hall Video',
             text: '<p>Video coverage of the Iscabon Film screening at Gitanjali Hall.</p>',
             media: [
                 { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Iskabon Film Video' }
@@ -839,59 +839,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const parentRect = parentLi.getBoundingClientRect();
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
-        // --- Reset all alignment classes and JS styles ---
+        // --- Reset all alignment classes and styles ---
         parentLi.classList.remove('opens-left'); 
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
-        dropdownElement.style.top = ''; // Reset vertical alignment
-        dropdownElement.style.right = ''; // Reset horizontal alignment
-        dropdownElement.style.left = ''; // New reset: Clear previous dynamic left setting
+        dropdownElement.style.top = ''; // Reset vertical alignment override
+        // Note: L1 menus default to top: 100%, L2+ menus default to top: 0 in CSS.
+        // We only apply style.top if we need to override this default.
 
         // --- 1. HORIZONTAL POSITIONING ---
         if (isNested) {
             // --- Logic for NESTED dropdowns (L2+) ---
-            
-            // Check if opening right (default) will overflow
             const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
             
             if (overflowsRight) {
-                // It overflows right. Must try to open left. Check if there is space on the left.
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
-                    // Scenario A: Open Left, Plenty of Space (Rely on CSS: right: 100%)
-                    dropdownElement.classList.add('align-left'); 
+                    dropdownElement.classList.add('align-left');
                     parentLi.classList.add('opens-left');
-                    
                 } else {
-                    // Scenario B: No space left either. Must force left-edge alignment dynamically.
-                    
-                    // 1. Force styling for 'open left'
-                    parentLi.classList.add('opens-left'); 
-                    
-                    // 2. Calculate the required left position relative to the parent Li 
-                    //    to align the submenu's left edge to the viewport's left edge (GAP).
-                    //    This guarantees the menu fits horizontally.
-                    const newLeftRelative = GAP - parentRect.left;
-                    
-                    // 3. Apply the dynamic position, overriding default CSS.
-                    dropdownElement.style.left = newLeftRelative + 'px';
-                    dropdownElement.style.right = 'auto'; 
+                    // Not enough space left, align to the edge
+                    dropdownElement.classList.add('align-left-edge');
+                    parentLi.classList.add('opens-left');
                 }
             }
             // If it doesn't overflow right, it opens right by default.
-
+            
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
             const defaultRightEdge = parentRect.left + dropdownWidth;
 
             if (defaultRightEdge > (viewportWidth - GAP)) {
-                // L1 menu overflows right. Force right edge alignment.
                 dropdownElement.classList.add('align-right');
             }
             // If it doesn't overflow right, it opens left (default)
         }
 
-        // --- 2. VERTICAL POSITIONING --- (Unchanged)
+        // --- 2. VERTICAL POSITIONING ---
         
         let dropdownTopViewport;
         
@@ -917,7 +901,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 newTopViewport = GAP;
             }
 
-            // Calculate the new 'top' property relative to the parent 'li'
+            // This calculation works for both L1 and L2+ menus.
+            // It calculates the new 'top' property relative to the parent 'li'
+            // that will result in the desired 'newTopViewport' position.
             const newTopRelative = newTopViewport - parentRect.top;
 
             dropdownElement.style.top = newTopRelative + 'px';
