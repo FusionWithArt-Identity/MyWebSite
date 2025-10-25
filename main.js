@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         'videos-iskabon-film': {
-            title: 'Iskabon Film at Gitanjali Hall Video',
+            title: 'Iskabon-Film at Gitanjali Hall Video',
             text: '<p>Video coverage of the Iscabon Film screening at Gitanjali Hall.</p>',
             media: [
                 { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Iskabon Film Video' }
@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         break;
                 }
                 if (mediaItem.caption || mediaItem.title) {
-                    mediaSection += `<h4>${mediaItem.caption || mediaType.title}</h4>`;
+                    mediaSection += `<h4>${mediaItem.caption || mediaItem.title}</h4>`;
                 }
                 mediaSection += '</div>';
             });
@@ -844,50 +844,54 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
         dropdownElement.style.top = ''; // Reset vertical alignment
         dropdownElement.style.right = ''; // Reset horizontal alignment
+        dropdownElement.style.left = ''; // New reset: Clear previous dynamic left setting
 
         // --- 1. HORIZONTAL POSITIONING ---
         if (isNested) {
             // --- Logic for NESTED dropdowns (L2+) ---
+            
+            // Check if opening right (default) will overflow
             const overflowsRight = (parentRect.right + dropdownWidth) > (viewportWidth - GAP);
             
             if (overflowsRight) {
+                // It overflows right. Must try to open left. Check if there is space on the left.
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
-                    // Open normally to the left
-                    dropdownElement.classList.add('align-left');
+                    // Scenario A: Open Left, Plenty of Space (Rely on CSS: right: 100%)
+                    dropdownElement.classList.add('align-left'); 
                     parentLi.classList.add('opens-left');
+                    
                 } else {
-                    // --- [THIS IS THE FIX] ---
-                    // Can't open right (overflows), can't open left (overflows).
-                    // Add the 'align-left-edge' class (for borders/icon)
-                    dropdownElement.classList.add('align-left-edge');
-                    parentLi.classList.add('opens-left');
+                    // Scenario B: No space left either. Must force left-edge alignment dynamically.
                     
-                    // And dynamically calculate the 'right' property to override the class's
-                    // default 'right: 5px' and align it to the viewport.
+                    // 1. Force styling for 'open left'
+                    parentLi.classList.add('opens-left'); 
                     
-                    // Calculate how many pixels the parent's right edge is past the viewport edge (minus gap).
-                    const newRightPx = parentRect.right - (viewportWidth - GAP);
+                    // 2. Calculate the required left position relative to the parent Li 
+                    //    to align the submenu's left edge to the viewport's left edge (GAP).
+                    //    This guarantees the menu fits horizontally.
+                    const newLeftRelative = GAP - parentRect.left;
                     
-                    // Apply this as an inline style.
-                    // This will position the dropdown's right edge exactly at (viewportWidth - GAP).
-                    dropdownElement.style.right = newRightPx + 'px';
+                    // 3. Apply the dynamic position, overriding default CSS.
+                    dropdownElement.style.left = newLeftRelative + 'px';
+                    dropdownElement.style.right = 'auto'; 
                 }
             }
-            // If it doesn't overflow right, it opens right by default (no classes/styles needed).
+            // If it doesn't overflow right, it opens right by default.
 
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
             const defaultRightEdge = parentRect.left + dropdownWidth;
 
             if (defaultRightEdge > (viewportWidth - GAP)) {
+                // L1 menu overflows right. Force right edge alignment.
                 dropdownElement.classList.add('align-right');
             }
             // If it doesn't overflow right, it opens left (default)
         }
 
-        // --- 2. VERTICAL POSITIONING --- (This logic remains unchanged)
+        // --- 2. VERTICAL POSITIONING --- (Unchanged)
         
         let dropdownTopViewport;
         
@@ -913,9 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newTopViewport = GAP;
             }
 
-            // This calculation works for both L1 and L2+ menus.
-            // It calculates the new 'top' property relative to the parent 'li'
-            // that will result in the desired 'newTopViewport' position.
+            // Calculate the new 'top' property relative to the parent 'li'
             const newTopRelative = newTopViewport - parentRect.top;
 
             dropdownElement.style.top = newTopRelative + 'px';
