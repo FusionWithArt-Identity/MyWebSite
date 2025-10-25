@@ -260,6 +260,7 @@ header > .container {
     color: white;
 }
 
+/* --- [START OF BUG FIX] --- */
 .dropdown {
     position: absolute;
     top: 100%;
@@ -271,8 +272,8 @@ header > .container {
     list-style: none;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(0.625rem); /* 10px */
-    transition: all 0.3s ease;
+    /* FIX: Removed 'transform: translateY(0.625rem)' to prevent click-through bug during animation */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* FIX: Changed from 'all' to just 'opacity' and 'visibility' */
     z-index: 1000;
     padding: 0.5rem; /* 8px */
     display: grid;
@@ -284,8 +285,10 @@ header > .container {
 .has-dropdown.show-submenu > .dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    /* FIX: Removed 'transform: translateY(0)' as it's no longer needed */
 }
+/* --- [END OF BUG FIX] --- */
+
 
 .dropdown li {
     position: relative;
