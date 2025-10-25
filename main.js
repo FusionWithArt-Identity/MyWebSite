@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'photos-tournaments-2022-dhansara': {
             title: 'Dhansara Tournament -2022',
-            text: '<p>Photos from the Dhansara Tournament in 22022.</p>'
+            text: '<p>Photos from the Dhansara Tournament in 2022.</p>'
         },
         'photos-tournaments-2022-kabiguru': {
             title: 'Kabiguru Cup-2022',
@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         break;
                 }
                 if (mediaItem.caption || mediaItem.title) {
-                    mediaSection += `<h4>${mediaItem.caption || mediaItem.title}</h4>`;
+                    mediaSection += `<h4>${mediaItem.caption || mediaType.title}</h4>`;
                 }
                 mediaSection += '</div>';
             });
@@ -839,12 +839,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const parentRect = parentLi.getBoundingClientRect();
         const isNested = parentLi.parentElement.classList.contains('dropdown');
 
-        // --- Reset all alignment classes and styles ---
+        // --- Reset all alignment classes and JS styles ---
         parentLi.classList.remove('opens-left'); 
         dropdownElement.classList.remove('align-right', 'align-left', 'align-left-edge');
-        dropdownElement.style.top = ''; // Reset vertical alignment override
-        // Note: L1 menus default to top: 100%, L2+ menus default to top: 0 in CSS.
-        // We only apply style.top if we need to override this default.
+        dropdownElement.style.top = ''; // Reset vertical alignment
+        dropdownElement.style.right = ''; // Reset horizontal alignment
 
         // --- 1. HORIZONTAL POSITIONING ---
         if (isNested) {
@@ -855,16 +854,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 const hasSpaceLeft = (parentRect.left - dropdownWidth) > GAP;
 
                 if (hasSpaceLeft) {
+                    // Open normally to the left
                     dropdownElement.classList.add('align-left');
                     parentLi.classList.add('opens-left');
                 } else {
-                    // Not enough space left, align to the edge
+                    // --- [THIS IS THE FIX] ---
+                    // Can't open right (overflows), can't open left (overflows).
+                    // Add the 'align-left-edge' class (for borders/icon)
                     dropdownElement.classList.add('align-left-edge');
                     parentLi.classList.add('opens-left');
+                    
+                    // And dynamically calculate the 'right' property to override the class's
+                    // default 'right: 5px' and align it to the viewport.
+                    
+                    // Calculate how many pixels the parent's right edge is past the viewport edge (minus gap).
+                    const newRightPx = parentRect.right - (viewportWidth - GAP);
+                    
+                    // Apply this as an inline style.
+                    // This will position the dropdown's right edge exactly at (viewportWidth - GAP).
+                    dropdownElement.style.right = newRightPx + 'px';
                 }
             }
-            // If it doesn't overflow right, it opens right by default.
-            
+            // If it doesn't overflow right, it opens right by default (no classes/styles needed).
+
         } else { 
             // --- Logic for TOP-LEVEL dropdowns (L1) ---
             const defaultRightEdge = parentRect.left + dropdownWidth;
@@ -875,7 +887,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // If it doesn't overflow right, it opens left (default)
         }
 
-        // --- 2. VERTICAL POSITIONING ---
+        // --- 2. VERTICAL POSITIONING --- (This logic remains unchanged)
         
         let dropdownTopViewport;
         
