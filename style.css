@@ -148,7 +148,7 @@ header > .container {
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index:3;
+    z-index:9998;
 }
 
 .navbar {
@@ -272,7 +272,8 @@ header > .container {
     opacity: 0;
     visibility: hidden;
     transform: translateY(0.625rem); /* 10px */
-    transition: all 0.3s ease;
+    /* --- MODIFIED: Removed 'all' and added specific, responsive transitions --- */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     z-index: 1000;
     padding: 0.5rem; /* 8px */
     display: grid;
@@ -285,6 +286,8 @@ header > .container {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    /* --- MODIFIED: Make visibility instant on open --- */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s;
 }
 
 .dropdown li {
@@ -328,7 +331,8 @@ header > .container {
     border-left: 2px solid var(--primary-color);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    /* --- MODIFIED: Removed 'all' and added specific, responsive transitions --- */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
 .dropdown .has-dropdown.show-submenu > .dropdown {
@@ -336,6 +340,8 @@ header > .container {
     visibility: visible;
     transform: translateY(0);
     z-index: 1100;
+    /* --- MODIFIED: Make visibility instant on open --- */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s;
 }
 
 .dropdown.align-right {
@@ -403,7 +409,7 @@ header > .container {
     margin-bottom: 0.9375rem; /* 15px */
     position: sticky; /* Makes the mobile menu button sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index: 4;
+    z-index: 9999;
 }
 
 .menu-text {
@@ -439,7 +445,7 @@ header > .container {
     border-radius: 0.5rem; /* 8px */
     box-shadow: var(--shadow);
     height: 25rem; /* 400px */
-    z-index: 1; /* --- THIS IS THE FIX --- */
+    z-index: 1; /* --- THIS IS THE FIX for the video bug --- */
 }
 
 .carousel-slide {
