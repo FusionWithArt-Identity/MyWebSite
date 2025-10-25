@@ -148,7 +148,7 @@ header > .container {
     box-shadow: var(--shadow);
     position: sticky; /* Makes the navigation bar sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index:9998;
+    z-index:3;
 }
 
 .navbar {
@@ -403,7 +403,7 @@ header > .container {
     margin-bottom: 0.9375rem; /* 15px */
     position: sticky; /* Makes the mobile menu button sticky */
     top: 0; /* Sticks to the very top of the viewport */
-    z-index: 9999;
+    z-index: 4;
 }
 
 .menu-text {
