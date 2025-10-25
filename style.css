@@ -439,6 +439,7 @@ header > .container {
     border-radius: 0.5rem; /* 8px */
     box-shadow: var(--shadow);
     height: 25rem; /* 400px */
+    z-index: 1; /* --- THIS IS THE FIX --- */
 }
 
 .carousel-slide {
