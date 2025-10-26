@@ -557,7 +557,8 @@ header > .container {
 /* Main Content Area Styling */
 .main-content {
     min-height: 15.625rem; /* 250px */
-    padding: 1.25rem; /* 20px */
+    /* padding: 1.25rem; /* 20px */ */ /* --- MODIFICATION 1: Replaced --- */
+    padding: clamp(0.75rem, 3vw, 1.25rem); /* --- MODIFICATION 1: Added responsive padding --- */
     background-color: var(--light-color); /* --- MODIFIED --- */ /* This is needed to "cover" the body color */
     border-radius: 0.5rem; /* 8px */
     box-shadow: var(--shadow);
@@ -604,7 +605,7 @@ header > .container {
     box-shadow: var(--shadow);
     padding: 0.625rem; /* 10px */
     text-align: center;
-    overflow: hidden;
+    /* overflow: hidden; */ /* --- MODIFICATION 2: Removed to prevent cropping --- */
     min-width: 0;
 }
 
@@ -613,8 +614,10 @@ header > .container {
 .dynamic-content .media-item embed,
 .dynamic-content .media-item iframe {
     max-width: 100%;
+    width: 100%; /* --- MODIFICATION 3: Added to ensure media fills container --- */
     height: auto;
     display: block;
+    border-radius: 0.25rem; /* --- MODIFICATION 3: Added for cleaner look --- */
 }
 
 .dynamic-content .media-item h4 {
