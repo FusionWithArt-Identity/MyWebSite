@@ -557,7 +557,7 @@ header > .container {
 /* Main Content Area Styling */
 .main-content {
     min-height: 15.625rem; /* 250px */
-    padding: 1.25rem; /* 20px */
+    padding: 2.25rem; /* 40px */
     background-color: var(--light-color); /* --- MODIFIED --- */ /* This is needed to "cover" the body color */
     border-radius: 0.5rem; /* 8px */
     box-shadow: var(--shadow);
