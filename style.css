@@ -33,6 +33,7 @@ html {
     font-size: 100%; /* Base for REM units (1rem = 16px) */
     scroll-behavior: smooth;
     background-color: #E6D2B5; /* --- ADDED --- */ /* This is now the "gutter" color */
+    overflow-x: clip; /* --- MOVED HERE TO FIX STICKY MENU --- */
 }
 
 html, body {
@@ -41,7 +42,7 @@ html, body {
     line-height: 1.5; /* Increased for better readability */
     font-size: 1rem; /* Base body font size */
     position: relative;
-    overflow-x: clip;
+    /* overflow-x: clip; */ /* --- REMOVED FROM HERE TO FIX STICKY MENU --- */
 }
 
 /* --- THIS ENTIRE RULE IS ADDED --- */
