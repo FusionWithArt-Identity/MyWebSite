@@ -685,7 +685,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenuClose.classList.remove('spin-animation');
         }, 450); // Hide overlay and remove class *after* slide-out is complete
         
-        document.body.style.overflow = 'auto';
+        // document.body.style.overflow = 'auto'; // --- CRITICAL FIX: REMOVED to allow sticky header to work.
         mobileMenu.querySelectorAll('.has-submenu.active').forEach(item => {
             item.classList.remove('active');
         });
@@ -1037,8 +1037,8 @@ document.addEventListener('DOMContentLoaded', function() {
     navbarToggle.addEventListener('click', () => {
         mobileMenuOverlay.style.display = 'block';
         mobileMenuContainer.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        navbarToggle.classList.add('active'); // <-- MODIFICATION: Add active class for burger rotation
+        // document.body.style.overflow = 'hidden'; // --- CRITICAL FIX: REMOVED to allow sticky header to work.
+        navbarToggle.classList.add('active');
     });
     mobileMenuClose.addEventListener('click', closeMobileMenu);
     mobileMenuOverlay.addEventListener('click', closeMobileMenu);
