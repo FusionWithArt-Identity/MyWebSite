@@ -442,6 +442,17 @@ header > .container {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* --- [START OF MODIFICATION 1] --- */
+.navbar-toggle i {
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-toggle.active i {
+    transform: rotate(90deg);
+}
+/* --- [END OF MODIFICATION 1] --- */
+
+
 /* Carousel Styling */
 .carousel-container {
     margin: 0.9375rem 0; /* 15px */
@@ -873,6 +884,28 @@ footer {
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+/* --- [START OF MODIFICATION 2] --- */
+.mobile-menu-close i {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Define the spin animation */
+@keyframes spin-close {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Class to apply the animation */
+.mobile-menu-close.spin-animation i {
+    animation: spin-close 0.3s ease-in-out;
+}
+/* --- [END OF MODIFICATION 2] --- */
+
 
 .mobile-menu {
     list-style: none;
