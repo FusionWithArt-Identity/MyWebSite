@@ -390,6 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'photos-exhibition-match-kick-for-help': {
             title: 'Exhibition Match STA (Sr) Vs Kick for Help',
             text: '<p>Photos from the exhibition match between STA (Sr) and Kick for Help.</p>'
+E
         },
         'photos-exhibition-match-ghosaldanga': {
             title: 'Exhibition Match STA (Sub-junior) Vs Ghosaldanga',
@@ -671,8 +672,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function closeMobileMenu() {
         mobileMenuContainer.classList.remove('show');
+        navbarToggle.classList.remove('active'); // <-- MODIFICATION: Revert burger icon
+        mobileMenuClose.classList.add('spin-animation'); // <-- MODIFICATION: Add spin class
+
         setTimeout(() => {
             mobileMenuOverlay.style.display = 'none';
+            mobileMenuClose.classList.remove('spin-animation'); // <-- MODIFICATION: Remove spin class after animation
         }, 300);
         document.body.style.overflow = 'auto';
         mobileMenu.querySelectorAll('.has-submenu.active').forEach(item => {
@@ -1026,6 +1031,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenuOverlay.style.display = 'block';
         mobileMenuContainer.classList.add('show');
         document.body.style.overflow = 'hidden';
+        navbarToggle.classList.add('active'); // <-- MODIFICATION: Add active class for burger rotation
     });
     mobileMenuClose.addEventListener('click', closeMobileMenu);
     mobileMenuOverlay.addEventListener('click', closeMobileMenu);
