@@ -569,12 +569,12 @@ header > .container {
 .content-placeholder {
     text-align: center;
     color: #7f8c8d;
-    padding: 1.875rem 0.9375rem; /* 30px 15px */
+    padding: 2.875rem 0.9375rem; /* 30px 15px */
 }
 
 .content-placeholder i {
     font-size: 2.5rem;
-    margin-bottom: 0.625rem; /* 10px */
+    margin-bottom: 1rem; /* 10px */
     color: #bdc3c7;
 }
 
