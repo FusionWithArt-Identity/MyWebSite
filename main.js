@@ -390,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'photos-exhibition-match-kick-for-help': {
             title: 'Exhibition Match STA (Sr) Vs Kick for Help',
             text: '<p>Photos from the exhibition match between STA (Sr) and Kick for Help.</p>'
-E
         },
         'photos-exhibition-match-ghosaldanga': {
             title: 'Exhibition Match STA (Sub-junior) Vs Ghosaldanga',
@@ -518,7 +517,7 @@ E
             title: 'Special Practice Session by Dr. Mahesh Khetmalis Video',
             text: '<p>Video from a special practice session conducted by Dr. Mahesh Khetmalis.</p>',
             media: [
-                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
+                { type: 'video', src: 'httpsf://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
             ]
         },
         'videos-practice-dr-jewel': {
