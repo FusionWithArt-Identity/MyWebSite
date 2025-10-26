@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Special Practice Session by Dr. Mahesh Khetmalis Video',
             text: '<p>Video from a special practice session conducted by Dr. Mahesh Khetmalis.</p>',
             media: [
-                { type: 'video', src: 'httpsf://www.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
+                { type: 'video', src: 'https.w3schools.com/html/mov_bbb.mp4', title: 'Dr. Khetmalis Session' }
             ]
         },
         'videos-practice-dr-jewel': {
@@ -669,20 +669,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- [START OF MODIFIED FUNCTION] ---
     function closeMobileMenu() {
-        mobileMenuContainer.classList.remove('show');
-        navbarToggle.classList.remove('active'); // <-- MODIFICATION: Revert burger icon
-        mobileMenuClose.classList.add('spin-animation'); // <-- MODIFICATION: Add spin class
+        navbarToggle.classList.remove('active'); // Revert burger icon
+        mobileMenuClose.classList.add('spin-animation'); // Start spin
+        
+        // Wait for spin to be visible before sliding
+        setTimeout(() => { 
+            mobileMenuContainer.classList.remove('show'); // Start slide-out
+        }, 150); // Start sliding 150ms *after* spin starts
 
+        // Total time: 150ms (spin delay) + 300ms (slide animation) = 450ms
         setTimeout(() => {
             mobileMenuOverlay.style.display = 'none';
-            mobileMenuClose.classList.remove('spin-animation'); // <-- MODIFICATION: Remove spin class after animation
-        }, 300);
+            mobileMenuClose.classList.remove('spin-animation');
+        }, 450); // Hide overlay and remove class *after* slide-out is complete
+        
         document.body.style.overflow = 'auto';
         mobileMenu.querySelectorAll('.has-submenu.active').forEach(item => {
             item.classList.remove('active');
         });
     }
+    // --- [END OF MODIFIED FUNCTION] ---
 
     // --- [MODIFIED] ---
     function generateMenuHtml(items, parentType) {
